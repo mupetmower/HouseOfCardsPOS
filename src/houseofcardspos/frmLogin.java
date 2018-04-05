@@ -5,7 +5,8 @@
  */
 package houseofcardspos;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,9 +21,8 @@ public class frmLogin extends javax.swing.JFrame {
     public frmLogin(){
         initComponents();
     }
-    public frmLogin(String c, String d) {        
-        connection = c;
-        driver = d;        
+    public frmLogin(Connection c) {        
+        connection = c;               
         initComponents();
     }
 
@@ -127,12 +127,17 @@ public class frmLogin extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         try{
-            Class.forName(driver);
-            Connection con = DriverManager.getConnection(connection, txtUsername.getText(), txtPassword.getText());
-            JOptionPane.showMessageDialog(this,"Login Success!");
-            frmMain frmMain = new frmMain(con, txtUsername.getText());
-            this.setVisible(false);
-            frmMain.setVisible(true);
+            PreparedStatement ps = connection.prepareStatement("SELECT PK_UserName FROM houseofcards.logininfo WHERE PK_Password = '"+txtPassword.getText()+"'");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                if (txtUsername.getText().equals(rs.getString("PK_UserName"))){
+                    frmMain frmMain = new frmMain(connection,rs.getString("PK_UserName"),this);
+                    txtUsername.setText("");
+                    txtPassword.setText("");
+                    this.setVisible(false);
+                    frmMain.setVisible(true);
+                }
+            }         
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this,"Invalid username or password");
             System.err.println(ex);
@@ -178,8 +183,8 @@ public class frmLogin extends javax.swing.JFrame {
             }
         });
     }
-    String driver;
-    String connection;
+    private Connection connection;
+    private String user;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLogin;
