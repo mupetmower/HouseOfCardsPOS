@@ -127,21 +127,27 @@ public class frmLogin extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         try{
+            boolean temp = false;
             PreparedStatement ps = connection.prepareStatement("SELECT PK_UserName FROM houseofcards.logininfo WHERE PK_Password = '"+txtPassword.getText()+"'");
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 if (txtUsername.getText().equals(rs.getString("PK_UserName"))){
+                    temp = true;
                     frmMain frmMain = new frmMain(connection,rs.getString("PK_UserName"),this);
                     txtUsername.setText("");
                     txtPassword.setText("");
                     this.setVisible(false);
                     frmMain.setVisible(true);
                 }
-            }         
+            }
+            if(!temp){
+                JOptionPane.showMessageDialog(this,"Invalid username or password");
+            }            
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this,"Invalid username or password");
             System.err.println(ex);
         }
+        
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
