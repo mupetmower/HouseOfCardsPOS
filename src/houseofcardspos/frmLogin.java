@@ -130,6 +130,9 @@ public class frmLogin extends javax.swing.JFrame {
             Class.forName(driver);
             Connection con = DriverManager.getConnection(connection, txtUsername.getText(), txtPassword.getText());
             JOptionPane.showMessageDialog(this,"Login Success!");
+            frmMain frmMain = new frmMain(con, txtUsername.getText());
+            this.setVisible(false);
+            frmMain.setVisible(true);
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this,"Invalid username or password");
             System.err.println(ex);
