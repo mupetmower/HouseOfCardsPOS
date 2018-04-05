@@ -237,7 +237,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtSelectedItemPrice">
       <Properties>
-        <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="jTextField1"/>
       </Properties>
       <Events>
@@ -261,7 +260,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtItemID">
       <Properties>
-        <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="jTextField1"/>
       </Properties>
     </Component>

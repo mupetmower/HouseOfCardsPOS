@@ -122,7 +122,6 @@ public class frmMain extends javax.swing.JFrame {
 
         jLabel4.setText("Selected Item Price:");
 
-        txtSelectedItemPrice.setEditable(false);
         txtSelectedItemPrice.setText("jTextField1");
         txtSelectedItemPrice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,7 +135,6 @@ public class frmMain extends javax.swing.JFrame {
 
         jLabel6.setText("Selected Item ID:");
 
-        txtItemID.setEditable(false);
         txtItemID.setText("jTextField1");
 
         jLabel7.setText("Item Description:");
@@ -306,17 +304,18 @@ public class frmMain extends javax.swing.JFrame {
         try {
             ps = connection.prepareStatement("SELECT * FROM houseofcards.products WHERE PK_ProductID = "+pid);
             rs = ps.executeQuery();
-            rs.next();
-            txtDescription.setText(rs.getString("ProductDescription"));
-            txtSelectedItemPrice.setText(rs.getString("Price"));
-            txtItemID.setText(rs.getString("PK_ProductID"));
+            while (rs.next()){
+                txtDescription.setText(rs.getString("ProductDescription"));
+                txtSelectedItemPrice.setText(rs.getString("Price"));
+                txtItemID.setText(rs.getString("PK_ProductID"));
+            }
         } catch (SQLException ex) {
             System.err.println(ex);
         }
         
         String selectedProductName = lstProducts.getSelectedValue();
-        txtItemID.setText("");
-        txtSelectedItemPrice.setText("");
+        //txtItemID.setText("");
+        //txtSelectedItemPrice.setText("");
         System.out.println(selectedProductName);
     }//GEN-LAST:event_lstProductsValueChanged
     public static DefaultListModel buildListModel(ResultSet rs) throws SQLException{
