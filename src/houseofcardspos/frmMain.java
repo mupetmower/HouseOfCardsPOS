@@ -84,7 +84,6 @@ public class frmMain extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstProducts = new javax.swing.JList<>();
         jPanel4 = new javax.swing.JPanel();
-        jSplitPane3 = new javax.swing.JSplitPane();
         jPanel6 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -93,8 +92,6 @@ public class frmMain extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtItemID = new javax.swing.JTextField();
-        pnlImage = new javax.swing.JPanel();
-        lblPic = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
@@ -241,7 +238,18 @@ public class frmMain extends javax.swing.JFrame {
 
         jSplitPane2.setRightComponent(jSplitPane1);
 
-        jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 140, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 367, Short.MAX_VALUE)
+        );
+
+        jSplitPane2.setLeftComponent(jPanel4);
 
         jLabel7.setText("Item Description:");
 
@@ -293,49 +301,11 @@ public class frmMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jSplitPane3.setTopComponent(jPanel6);
-
-        javax.swing.GroupLayout pnlImageLayout = new javax.swing.GroupLayout(pnlImage);
-        pnlImage.setLayout(pnlImageLayout);
-        pnlImageLayout.setHorizontalGroup(
-            pnlImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlImageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblPic, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlImageLayout.setVerticalGroup(
-            pnlImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlImageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblPic, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jSplitPane3.setBottomComponent(pnlImage);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSplitPane3)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSplitPane3)
-                .addContainerGap())
-        );
-
-        jSplitPane2.setLeftComponent(jPanel4);
+        jSplitPane2.setTopComponent(jPanel6);
 
         jLabel3.setText("Logged in as:");
 
@@ -424,10 +394,6 @@ public class frmMain extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void txtSelectedItemPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSelectedItemPriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSelectedItemPriceActionPerformed
-
     private void lstProductsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstProductsValueChanged
         // TODO add your handling code here:
         if (!evt.getValueIsAdjusting()){return;}
@@ -472,6 +438,10 @@ public class frmMain extends javax.swing.JFrame {
         System.out.println(selectedProductName);
         
     }//GEN-LAST:event_lstProductsValueChanged
+
+    private void txtSelectedItemPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSelectedItemPriceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSelectedItemPriceActionPerformed
     public static DefaultListModel buildListModel(ResultSet rs) throws SQLException{
         DefaultListModel<String> dlm = new DefaultListModel<>();
         while(rs.next()){
@@ -639,15 +609,12 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
-    private javax.swing.JSplitPane jSplitPane3;
-    private javax.swing.JLabel lblPic;
     private javax.swing.JLabel lblSubtotal;
     private javax.swing.JLabel lblTax;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JList<String> lstProducts;
     private javax.swing.JList<String> lstSaleItems;
-    private javax.swing.JPanel pnlImage;
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtItemID;
     private javax.swing.JTextField txtSelectedItemPrice;
