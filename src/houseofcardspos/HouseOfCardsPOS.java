@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -22,6 +23,11 @@ public class HouseOfCardsPOS {
      */
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         // TODO code application logic here
+        try { 
+           UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
+        } catch (Exception ex) { 
+            ex.printStackTrace(); 
+        }
         String connection = "jdbc:mysql://25.7.50.219:3306/houseofcards";
         String driver = "com.mysql.jdbc.Driver";
         Class.forName(driver);
