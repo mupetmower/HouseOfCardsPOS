@@ -5,6 +5,8 @@
  */
 package houseofcardspos;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Interact
@@ -15,7 +17,7 @@ public class Product {
         //nothing
     }
     
-    public Product(int productID, float price, String productName, int inventoryQuantity, String thumbnailURI, String productDescription) {
+    public Product(int productID, BigDecimal price, String productName, int inventoryQuantity, String thumbnailURI, String productDescription) {
         this.productID = productID;
         this.price = price;
         this.productName = productName;
@@ -24,7 +26,7 @@ public class Product {
         this.productDescription = productDescription;
     }
 
-    public Product(int productID, float price, String productName, int inventoryQuantity, String productDescription) {
+    public Product(int productID, BigDecimal price, String productName, int inventoryQuantity, String productDescription) {
         this.productID = productID;
         this.price = price;
         this.productName = productName;
@@ -40,11 +42,11 @@ public class Product {
         this.productID = productID;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -82,7 +84,7 @@ public class Product {
     
     
     private int productID;
-    private float price;
+    private BigDecimal price;
     private String productName;
     private int inventoryQuantity;
     private String thumbnailURI;

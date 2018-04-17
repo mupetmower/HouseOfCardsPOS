@@ -11,6 +11,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +27,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import javax.swing.table.DefaultTableModel;
@@ -92,12 +95,15 @@ public class frmMain extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtItemID = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtQuantity = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(520, 360));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -202,6 +208,11 @@ public class frmMain extends javax.swing.JFrame {
         jLabel2.setText("Products:");
 
         btnAdd.setText("Add Item");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         lstProducts.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -242,11 +253,11 @@ public class frmMain extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 140, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 367, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jSplitPane2.setLeftComponent(jPanel4);
@@ -270,6 +281,10 @@ public class frmMain extends javax.swing.JFrame {
 
         jLabel4.setText("Selected Item Price:");
 
+        jLabel10.setText("Quantity:");
+
+        txtQuantity.setEditable(false);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -280,11 +295,13 @@ public class frmMain extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jLabel4)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtSelectedItemPrice, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(txtItemID, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(jLabel10)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtQuantity, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtSelectedItemPrice, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -299,9 +316,13 @@ public class frmMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSelectedItemPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -326,7 +347,8 @@ public class frmMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -382,6 +404,7 @@ public class frmMain extends javax.swing.JFrame {
             ProductsArray = buildProducts(rs);
             lstProducts.setModel(buildListModel(ProductsArray));
             
+            subtotal = 0.00f;            
         } catch (SQLException ex) {
             System.err.println(ex);
         }
@@ -393,11 +416,9 @@ public class frmMain extends javax.swing.JFrame {
         frmLogin.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
-
-    private void lstProductsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstProductsValueChanged
-        // TODO add your handling code here:
-        if (!evt.getValueIsAdjusting()){return;}
-        PreparedStatement ps;
+    
+    private void updateSelectedInfo(){
+         PreparedStatement ps;
         ResultSet rs;
         int pid = -1;
         for (Product p: ProductsArray){
@@ -405,43 +426,63 @@ public class frmMain extends javax.swing.JFrame {
                 pid = p.getProductID();
             }
         }
-        try {
-            Image prodImgSized;
-            BufferedImage prodImg = null;
+        try {            
             ps = connection.prepareStatement("SELECT * FROM houseofcards.products WHERE PK_ProductID = "+pid);
             rs = ps.executeQuery();
             while (rs.next()){
                 txtDescription.setText(rs.getString("ProductDescription"));
                 txtSelectedItemPrice.setText(rs.getString("Price"));
-                txtItemID.setText(rs.getString("PK_ProductID"));
-                try{
-                    //System.out.println(System.getProperty("user.dir")+"/src/res/"+rs.getString("ThumbnailURI"));                    
-                    prodImg = ImageIO.read(new File(System.getProperty("user.dir")+"/src/res/"+rs.getString("ThumbnailURI")));
-                    prodImgSized = prodImg.getScaledInstance(-1, pnlImage.getHeight() - 1, Image.SCALE_REPLICATE);
-                    
-                    lblPic.setIcon(new ImageIcon(prodImgSized)); 
-                    
-                    lblPic.setSize(pnlImage.getWidth(), pnlImage.getHeight() - 4);
-                    
-                    
-                } catch (Exception ex){
-                    System.err.println(ex);
-                }
+                txtItemID.setText(rs.getString("PK_ProductID"));   
+                txtQuantity.setText(rs.getString("InventoryQuantity"));
             }
         } catch (SQLException ex) {
             System.err.println(ex);
         }
+    }
+    
+    private void lstProductsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstProductsValueChanged
+        // TODO add your handling code here:
+        if (!evt.getValueIsAdjusting()){return;}
+        updateSelectedInfo();
 
         String selectedProductName = lstProducts.getSelectedValue();
         //txtItemID.setText("");
         //txtSelectedItemPrice.setText("");
-        System.out.println(selectedProductName);
+        //System.out.println(selectedProductName);
         
     }//GEN-LAST:event_lstProductsValueChanged
 
     private void txtSelectedItemPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSelectedItemPriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSelectedItemPriceActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        if (ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()>0){
+            SalesItems.add(ProductsArray.get(lstProducts.getSelectedIndex())); //fix this by adding a control in between for if there is one already in the list to just update the quantity, and not add another one to the list
+            lstSaleItems.setModel(buildListModel(SalesItems));
+            subtotal+=ProductsArray.get(lstProducts.getSelectedIndex()).getPrice().floatValue();
+            lblSubtotal.setText(String.format("%.2f",subtotal));
+            lblTax.setText(String.format("%.2f",tax()));
+            lblTotal.setText(String.format("%.2f",total()));
+            try{
+                //PreparedStatement ps = connection.prepareStatement("UPDATE houseofcards.products SET InventoryQuantity="+Integer.toString(ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()-1)+" WHERE PK_ProductID = "+Integer.toString(ProductsArray.get(lstProducts.getSelectedIndex()).getProductID()));
+                //ps.executeUpdate();
+               
+
+                PreparedStatement ps1 = connection.prepareStatement("select * from houseofcards.products");
+                ResultSet rs = ps1.executeQuery();
+
+                ProductsArray = buildProducts(rs);
+
+                updateSelectedInfo();
+            }catch (SQLException se){
+                System.err.println(se);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this,"yo we're all outta that item");
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
     public static DefaultListModel buildListModel(ResultSet rs) throws SQLException{
         DefaultListModel<String> dlm = new DefaultListModel<>();
         while(rs.next()){
@@ -453,6 +494,13 @@ public class frmMain extends javax.swing.JFrame {
         DefaultListModel<String> dlm = new DefaultListModel<>();
         arr.forEach((p) -> dlm.addElement(p.getProductName()));
         return dlm;
+    }
+    private double tax(){
+        return subtotal*.0675;
+    }
+    
+    private double total(){
+        return subtotal+tax();
     }
     
     public static ArrayList<Product> buildProducts(ResultSet rs) throws SQLException{
@@ -466,7 +514,7 @@ public class frmMain extends javax.swing.JFrame {
                 System.err.println(ex);
             }
             try{
-                p.setPrice(Float.parseFloat(rs.getString("Price")));
+                p.setPrice(new BigDecimal(rs.getString("Price")));
             }catch(Exception ex){
                 System.err.println(ex);
             }
@@ -578,8 +626,9 @@ public class frmMain extends javax.swing.JFrame {
                 mainForm.setVisible(true);
             }
         });
-    }
-    
+    }    
+    private float subtotal;
+    private ArrayList<Product> SalesItems = new ArrayList<>();
     private ArrayList<Product> ProductsArray = new ArrayList<>();
     private static Connection connection;
     private String user;
@@ -590,6 +639,7 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnRemove;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -617,6 +667,7 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JList<String> lstSaleItems;
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtItemID;
+    private javax.swing.JTextField txtQuantity;
     private javax.swing.JTextField txtSelectedItemPrice;
     // End of variables declaration//GEN-END:variables
 }
