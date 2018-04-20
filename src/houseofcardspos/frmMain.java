@@ -5,30 +5,18 @@
  */
 package houseofcardspos;
 
-
-import java.awt.Image;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import java.util.Vector;
-import javax.imageio.ImageIO;
-
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -66,7 +54,7 @@ public class frmMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlCompletionAndTotal = new javax.swing.JPanel();
         lblSubtotal = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -74,20 +62,19 @@ public class frmMain extends javax.swing.JFrame {
         lblTotal = new javax.swing.JLabel();
         lblTax = new javax.swing.JLabel();
         btnCompleteSale = new javax.swing.JButton();
-        jSplitPane2 = new javax.swing.JSplitPane();
-        jSplitPane1 = new javax.swing.JSplitPane();
-        jPanel3 = new javax.swing.JPanel();
+        SplitPaneMain = new javax.swing.JSplitPane();
+        SplitPaneProductsSaleItems = new javax.swing.JSplitPane();
+        pnlSaleItems = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstSaleItems = new javax.swing.JList<>();
         btnRemove = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        pnlProducts = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         lstProducts = new javax.swing.JList<>();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        pnlItemInfo = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescription = new javax.swing.JTextArea();
@@ -97,10 +84,16 @@ public class frmMain extends javax.swing.JFrame {
         txtItemID = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
-        jPanel5 = new javax.swing.JPanel();
+        pnlLogout = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
+        mnuMainMenuBar = new javax.swing.JMenuBar();
+        mnuFile = new javax.swing.JMenu();
+        mnuFileNewSale = new javax.swing.JMenuItem();
+        mnuFileCloseSale = new javax.swing.JMenuItem();
+        mnuFileSaveSale = new javax.swing.JMenuItem();
+        mnuEdit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(520, 360));
@@ -124,52 +117,52 @@ public class frmMain extends javax.swing.JFrame {
 
         btnCompleteSale.setText("Complete Sale");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlCompletionAndTotalLayout = new javax.swing.GroupLayout(pnlCompletionAndTotal);
+        pnlCompletionAndTotal.setLayout(pnlCompletionAndTotalLayout);
+        pnlCompletionAndTotalLayout.setHorizontalGroup(
+            pnlCompletionAndTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCompletionAndTotalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlCompletionAndTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCompleteSale)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(pnlCompletionAndTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(pnlCompletionAndTotalLayout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(lblSubtotal))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(pnlCompletionAndTotalLayout.createSequentialGroup()
                             .addComponent(jLabel8)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblTax))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(pnlCompletionAndTotalLayout.createSequentialGroup()
                             .addComponent(jLabel9)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblTotal))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlCompletionAndTotalLayout.setVerticalGroup(
+            pnlCompletionAndTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCompletionAndTotalLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnCompleteSale)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlCompletionAndTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(lblSubtotal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlCompletionAndTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(lblTax))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlCompletionAndTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(lblTotal))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jSplitPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        SplitPaneProductsSaleItems.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(280, 250));
+        pnlSaleItems.setPreferredSize(new java.awt.Dimension(280, 250));
 
         jLabel1.setText("Sale Items:");
 
@@ -177,33 +170,33 @@ public class frmMain extends javax.swing.JFrame {
 
         btnRemove.setText("Remove Item");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnlSaleItemsLayout = new javax.swing.GroupLayout(pnlSaleItems);
+        pnlSaleItems.setLayout(pnlSaleItemsLayout);
+        pnlSaleItemsLayout.setHorizontalGroup(
+            pnlSaleItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(pnlSaleItemsLayout.createSequentialGroup()
                 .addComponent(btnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(pnlSaleItemsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        pnlSaleItemsLayout.setVerticalGroup(
+            pnlSaleItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSaleItemsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRemove))
         );
 
-        jSplitPane1.setRightComponent(jPanel3);
+        SplitPaneProductsSaleItems.setRightComponent(pnlSaleItems);
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(280, 250));
+        pnlProducts.setPreferredSize(new java.awt.Dimension(280, 250));
 
         jLabel2.setText("Products:");
 
@@ -221,46 +214,33 @@ public class frmMain extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(lstProducts);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnlProductsLayout = new javax.swing.GroupLayout(pnlProducts);
+        pnlProducts.setLayout(pnlProductsLayout);
+        pnlProductsLayout.setHorizontalGroup(
+            pnlProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(pnlProductsLayout.createSequentialGroup()
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(pnlProductsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        pnlProductsLayout.setVerticalGroup(
+            pnlProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlProductsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdd))
         );
 
-        jSplitPane1.setLeftComponent(jPanel2);
+        SplitPaneProductsSaleItems.setLeftComponent(pnlProducts);
 
-        jSplitPane2.setRightComponent(jSplitPane1);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jSplitPane2.setLeftComponent(jPanel4);
+        SplitPaneMain.setRightComponent(SplitPaneProductsSaleItems);
 
         jLabel7.setText("Item Description:");
 
@@ -285,28 +265,28 @@ public class frmMain extends javax.swing.JFrame {
 
         txtQuantity.setEditable(false);
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlItemInfoLayout = new javax.swing.GroupLayout(pnlItemInfo);
+        pnlItemInfo.setLayout(pnlItemInfoLayout);
+        pnlItemInfoLayout.setHorizontalGroup(
+            pnlItemInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlItemInfoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlItemInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jLabel4)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlItemInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(txtItemID, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jLabel10)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlItemInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(txtQuantity, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtSelectedItemPrice, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        pnlItemInfoLayout.setVerticalGroup(
+            pnlItemInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlItemInfoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addGap(2, 2, 2)
@@ -322,11 +302,11 @@ public class frmMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jSplitPane2.setTopComponent(jPanel6);
+        SplitPaneMain.setTopComponent(pnlItemInfo);
 
         jLabel3.setText("Logged in as:");
 
@@ -338,11 +318,11 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlLogoutLayout = new javax.swing.GroupLayout(pnlLogout);
+        pnlLogout.setLayout(pnlLogoutLayout);
+        pnlLogoutLayout.setHorizontalGroup(
+            pnlLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLogoutLayout.createSequentialGroup()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
@@ -350,19 +330,37 @@ public class frmMain extends javax.swing.JFrame {
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        pnlLogoutLayout.setVerticalGroup(
+            pnlLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLogoutLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(pnlLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlLogoutLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(pnlLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)))
                     .addComponent(lblUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        mnuFile.setText("File");
+
+        mnuFileNewSale.setText("New Sale");
+        mnuFile.add(mnuFileNewSale);
+
+        mnuFileCloseSale.setText("Close Sale");
+        mnuFile.add(mnuFileCloseSale);
+
+        mnuFileSaveSale.setText("Save Sale");
+        mnuFile.add(mnuFileSaveSale);
+
+        mnuMainMenuBar.add(mnuFile);
+
+        mnuEdit.setText("Edit");
+        mnuMainMenuBar.add(mnuEdit);
+
+        setJMenuBar(mnuMainMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -372,24 +370,24 @@ public class frmMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE)
+                        .addComponent(SplitPaneMain, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlCompletionAndTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(pnlLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane2)
+                .addComponent(SplitPaneMain)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pnlCompletionAndTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(pnlLogout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -418,7 +416,7 @@ public class frmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
     
     private void updateSelectedInfo(){
-         PreparedStatement ps;
+        PreparedStatement ps;
         ResultSet rs;
         int pid = -1;
         for (Product p: ProductsArray){
@@ -458,7 +456,36 @@ public class frmMain extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        if (ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()>0){
+        boolean updateNeeded = false;
+        //If there is more than zero of the selected product in DB inventory
+        if(ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()>0){
+            //If the difference between the inventory in the DB and cart is greater than 0
+            for (SaleItem si : SalesItems){
+                if(ProductsArray.get(lstProducts.getSelectedIndex()).getProductID()==si.getProductID()){
+                    if (si.getInventoryQuantity()+si.getQuantity()>0){
+                        //They already have it in their cart and they are free to increment the value of that
+                        si.setQuantity(si.getQuantity()+1);
+                        lstSaleItems.setModel(buildSalesListModel(SalesItems));
+                        System.out.println("They already have it in their cart and they are free to increment the value of that");
+                    }else{
+                        JOptionPane.showMessageDialog(this,"You got the last of that item!");
+                    }
+                }else{
+                    //Thats a product they don't have in their cart yet so add it
+                    updateNeeded = true;
+                }
+            }
+            if (SalesItems.isEmpty()||updateNeeded){
+                SalesItems.add(new SaleItem(1,ProductsArray.get(lstProducts.getSelectedIndex())));
+                lstSaleItems.setModel(buildSalesListModel(SalesItems));
+                System.out.println("that product needed addition");
+            }
+            System.out.println("more than 0!");
+        }else{
+            JOptionPane.showMessageDialog(this, "We have no more inventory for that item!");
+        }
+        System.out.println("beans");
+        /*if (ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()>0){
             SalesItems.add(ProductsArray.get(lstProducts.getSelectedIndex())); //fix this by adding a control in between for if there is one already in the list to just update the quantity, and not add another one to the list
             lstSaleItems.setModel(buildListModel(SalesItems));
             subtotal+=ProductsArray.get(lstProducts.getSelectedIndex()).getPrice().floatValue();
@@ -481,26 +508,19 @@ public class frmMain extends javax.swing.JFrame {
             }
         }else{
             JOptionPane.showMessageDialog(this,"yo we're all outta that item");
-        }
+        }*/
     }//GEN-LAST:event_btnAddActionPerformed
-    public static DefaultListModel buildListModel(ResultSet rs) throws SQLException{
-        DefaultListModel<String> dlm = new DefaultListModel<>();
-        while(rs.next()){
-            dlm.addElement(rs.getString("ProductName"));
-        }
-        return dlm;
-    }
+
     public static DefaultListModel buildListModel(ArrayList<Product> arr){
         DefaultListModel<String> dlm = new DefaultListModel<>();
-        arr.forEach((p) -> dlm.addElement(p.getProductName()));
+        arr.forEach((p) -> dlm.addElement(p.getProductName()+""));
         return dlm;
     }
-    private double tax(){
-        return subtotal*.0675;
-    }
     
-    private double total(){
-        return subtotal+tax();
+    public static DefaultListModel buildSalesListModel(ArrayList<SaleItem> arr){
+        DefaultListModel<String> dlm = new DefaultListModel<>();
+        arr.forEach((s) -> dlm.addElement(s.getProductName()+" x"+s.getQuantity()));
+        return dlm;
     }
     
     public static ArrayList<Product> buildProducts(ResultSet rs) throws SQLException{
@@ -533,18 +553,12 @@ public class frmMain extends javax.swing.JFrame {
             }catch(Exception ex){
                 System.err.println(ex);
             }
-            try{
-                p.setThumbnailURI(rs.getString("ThumbnailURI"));               
-            }catch(Exception ex){
-                System.err.println(ex);
-            }
             arr.add(p);
         }
         return arr;
     }
     
-    public static DefaultTableModel buildTableModel(ResultSet rs)
-        throws SQLException {
+    public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
     ResultSetMetaData metaData = rs.getMetaData();
 
@@ -568,12 +582,8 @@ public class frmMain extends javax.swing.JFrame {
     return new DefaultTableModel(data, columnNames);
 
 }
-    /**
-     * @param args the command line arguments
-     */
        
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -596,7 +606,6 @@ public class frmMain extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 frmMain mainForm = new frmMain();
@@ -626,14 +635,23 @@ public class frmMain extends javax.swing.JFrame {
                 mainForm.setVisible(true);
             }
         });
+    }
+    private double tax(){
+        return subtotal*.0675;
+    }
+    
+    private double total(){
+        return subtotal+tax();
     }    
     private float subtotal;
-    private ArrayList<Product> SalesItems = new ArrayList<>();
+    private ArrayList<SaleItem> SalesItems = new ArrayList<>();
     private ArrayList<Product> ProductsArray = new ArrayList<>();
     private static Connection connection;
     private String user;
     private frmLogin frmLogin;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSplitPane SplitPaneMain;
+    private javax.swing.JSplitPane SplitPaneProductsSaleItems;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCompleteSale;
     private javax.swing.JButton btnLogout;
@@ -648,23 +666,26 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JLabel lblSubtotal;
     private javax.swing.JLabel lblTax;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JList<String> lstProducts;
     private javax.swing.JList<String> lstSaleItems;
+    private javax.swing.JMenu mnuEdit;
+    private javax.swing.JMenu mnuFile;
+    private javax.swing.JMenuItem mnuFileCloseSale;
+    private javax.swing.JMenuItem mnuFileNewSale;
+    private javax.swing.JMenuItem mnuFileSaveSale;
+    private javax.swing.JMenuBar mnuMainMenuBar;
+    private javax.swing.JPanel pnlCompletionAndTotal;
+    private javax.swing.JPanel pnlItemInfo;
+    private javax.swing.JPanel pnlLogout;
+    private javax.swing.JPanel pnlProducts;
+    private javax.swing.JPanel pnlSaleItems;
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtItemID;
     private javax.swing.JTextField txtQuantity;

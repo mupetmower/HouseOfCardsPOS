@@ -16,15 +16,6 @@ public class Product {
     public Product(){
         //nothing
     }
-    
-    public Product(int productID, BigDecimal price, String productName, int inventoryQuantity, String thumbnailURI, String productDescription) {
-        this.productID = productID;
-        this.price = price;
-        this.productName = productName;
-        this.inventoryQuantity = inventoryQuantity;
-        this.thumbnailURI = thumbnailURI;
-        this.productDescription = productDescription;
-    }
 
     public Product(int productID, BigDecimal price, String productName, int inventoryQuantity, String productDescription) {
         this.productID = productID;
@@ -66,14 +57,6 @@ public class Product {
         this.inventoryQuantity = inventoryQuantity;
     }
 
-    public String getThumbnailURI() {
-        return thumbnailURI;
-    }
-
-    public void setThumbnailURI(String thumbnailURI) {
-        this.thumbnailURI = thumbnailURI;
-    }
-
     public String getProductDescription() {
         return productDescription;
     }
@@ -87,6 +70,5 @@ public class Product {
     private BigDecimal price;
     private String productName;
     private int inventoryQuantity;
-    private String thumbnailURI;
     private String productDescription;
 }

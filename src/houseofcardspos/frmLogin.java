@@ -141,12 +141,12 @@ public class frmLogin extends javax.swing.JFrame {
     private void login(){
         try{
             boolean temp = false;
-            PreparedStatement ps = connection.prepareStatement("SELECT PK_UserName FROM houseofcards.logininfo WHERE Password = '"+txtPassword.getText()+"'");
+            PreparedStatement ps = connection.prepareStatement("SELECT Username FROM houseofcards.logininfo WHERE Password = '"+txtPassword.getText()+"'");
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
-                if (txtUsername.getText().equals(rs.getString("PK_UserName"))){
+                if (txtUsername.getText().equals(rs.getString("Username"))){
                     temp = true;
-                    frmMain frmMain = new frmMain(connection,rs.getString("PK_UserName"),this);
+                    frmMain frmMain = new frmMain(connection,rs.getString("Username"),this);
                     txtUsername.setText("");
                     txtPassword.setText("");
                     this.setVisible(false);
