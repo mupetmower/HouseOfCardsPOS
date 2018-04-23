@@ -9,11 +9,15 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -96,6 +100,7 @@ public class frmMain extends javax.swing.JFrame {
         mnuEdit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("House of Cards Point of Sale");
         setMinimumSize(new java.awt.Dimension(520, 360));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -116,6 +121,11 @@ public class frmMain extends javax.swing.JFrame {
         lblTax.setText("$0");
 
         btnCompleteSale.setText("Complete Sale");
+        btnCompleteSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCompleteSaleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCompletionAndTotalLayout = new javax.swing.GroupLayout(pnlCompletionAndTotal);
         pnlCompletionAndTotal.setLayout(pnlCompletionAndTotalLayout);
@@ -169,6 +179,11 @@ public class frmMain extends javax.swing.JFrame {
         jScrollPane2.setViewportView(lstSaleItems);
 
         btnRemove.setText("Remove Item");
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlSaleItemsLayout = new javax.swing.GroupLayout(pnlSaleItems);
         pnlSaleItems.setLayout(pnlSaleItemsLayout);
@@ -207,6 +222,11 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
+        lstProducts.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lstProductsKeyPressed(evt);
+            }
+        });
         lstProducts.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstProductsValueChanged(evt);
@@ -248,6 +268,7 @@ public class frmMain extends javax.swing.JFrame {
         txtDescription.setColumns(20);
         txtDescription.setLineWrap(true);
         txtDescription.setRows(5);
+        txtDescription.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtDescription);
 
         txtSelectedItemPrice.setEditable(false);
@@ -440,54 +461,63 @@ public class frmMain extends javax.swing.JFrame {
     
     private void lstProductsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstProductsValueChanged
         // TODO add your handling code here:
-        if (!evt.getValueIsAdjusting()){return;}
+       // if (!evt.getValueIsAdjusting()){return;}
         updateSelectedInfo();
 
         String selectedProductName = lstProducts.getSelectedValue();
         //txtItemID.setText("");
         //txtSelectedItemPrice.setText("");
         //System.out.println(selectedProductName);
-        
+    
     }//GEN-LAST:event_lstProductsValueChanged
-
+    
+    
+    
     private void txtSelectedItemPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSelectedItemPriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSelectedItemPriceActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
-        boolean updateNeeded = false;
+        updateNeeded = true;
         //If there is more than zero of the selected product in DB inventory
         if(ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()>0){
             //If the difference between the inventory in the DB and cart is greater than 0
-            for (SaleItem si : SalesItems){
+            SaleItems.forEach((si) -> {
                 if(ProductsArray.get(lstProducts.getSelectedIndex()).getProductID()==si.getProductID()){
-                    if (si.getInventoryQuantity()+si.getQuantity()>0){
+                    if ((si.getInventoryQuantity()+si.getQuantity())>0){
                         //They already have it in their cart and they are free to increment the value of that
-                        si.setQuantity(si.getQuantity()+1);
-                        lstSaleItems.setModel(buildSalesListModel(SalesItems));
-                        System.out.println("They already have it in their cart and they are free to increment the value of that");
+                        si.setQuantity(si.getQuantity()+1);                        
+                        lstSaleItems.setModel(buildSalesListModel(SaleItems));
+                        subtotal+=ProductsArray.get(lstProducts.getSelectedIndex()).getPrice().floatValue();
+                        lblSubtotal.setText(String.format("%.2f",subtotal));
+                        lblTax.setText(String.format("%.2f",tax()));
+                        lblTotal.setText(String.format("%.2f",total()));
+                        updateNeeded = false;
+                        System.out.println("is an existing sale item; increment its inventory value");                        
                     }else{
                         JOptionPane.showMessageDialog(this,"You got the last of that item!");
                     }
-                }else{
-                    //Thats a product they don't have in their cart yet so add it
-                    updateNeeded = true;
                 }
+            });
+            if (SaleItems.isEmpty()||updateNeeded){
+                SaleItems.add(new SaleItem(1,ProductsArray.get(lstProducts.getSelectedIndex())));
+                lstSaleItems.setModel(buildSalesListModel(SaleItems));
+                System.out.println("product needed addition to sale items");
+                subtotal = 0f;
+                for (SaleItem s : SaleItems){
+                    subtotal += s.getQuantity()*s.getPrice().doubleValue();
+                }
+                lblSubtotal.setText(String.format("%.2f",subtotal));
+                lblTax.setText(String.format("%.2f",tax()));
+                lblTotal.setText(String.format("%.2f",total()));
             }
-            if (SalesItems.isEmpty()||updateNeeded){
-                SalesItems.add(new SaleItem(1,ProductsArray.get(lstProducts.getSelectedIndex())));
-                lstSaleItems.setModel(buildSalesListModel(SalesItems));
-                System.out.println("that product needed addition");
-            }
-            System.out.println("more than 0!");
+            System.out.println("more than 0 in database inventory!");
         }else{
             JOptionPane.showMessageDialog(this, "We have no more inventory for that item!");
         }
-        System.out.println("beans");
         /*if (ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()>0){
-            SalesItems.add(ProductsArray.get(lstProducts.getSelectedIndex())); //fix this by adding a control in between for if there is one already in the list to just update the quantity, and not add another one to the list
-            lstSaleItems.setModel(buildListModel(SalesItems));
+            SaleItems.add(ProductsArray.get(lstProducts.getSelectedIndex())); //fix this by adding a control in between for if there is one already in the list to just update the quantity, and not add another one to the list
+            lstSaleItems.setModel(buildListModel(SaleItems));
             subtotal+=ProductsArray.get(lstProducts.getSelectedIndex()).getPrice().floatValue();
             lblSubtotal.setText(String.format("%.2f",subtotal));
             lblTax.setText(String.format("%.2f",tax()));
@@ -510,6 +540,55 @@ public class frmMain extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"yo we're all outta that item");
         }*/
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void lstProductsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lstProductsKeyPressed
+        // TODO add your handling code here:      
+    }//GEN-LAST:event_lstProductsKeyPressed
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        // TODO add your handling code here:
+        int selIndex = lstSaleItems.getSelectedIndex();
+    	if (SaleItems.get(selIndex).getQuantity()>1) {
+    		SaleItems.get(selIndex).setQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getQuantity()-1);
+    		updateSelectedInfo();
+    	}else {
+    		SaleItems.remove(selIndex);
+    	}
+    	lstSaleItems.setModel(buildSalesListModel(SaleItems));
+        subtotal = 0f;
+        for (SaleItem s : SaleItems){
+            subtotal += s.getQuantity()*s.getPrice().doubleValue();
+        }
+        lblSubtotal.setText(String.format("%.2f",subtotal));    
+        lblTax.setText(String.format("%.2f",tax()));
+        lblTotal.setText(String.format("%.2f",total()));
+        lstSaleItems.setSelectedIndex(selIndex);
+    }//GEN-LAST:event_btnRemoveActionPerformed
+
+    private void btnCompleteSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteSaleActionPerformed
+        // TODO add your handling code here:
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Sales.add(new Sale(SaleItems,BigDecimal.valueOf(total())));
+        try{ //Decrement inventories, create sale, create saleitems
+            int saleId = 3;
+            //HEY DONT FORGET TO ADD THE THING BELOW THAT ACTUALLY CALLS FROM THE SALE OBJECT INSTEAD OF JUST USING TEST DATA THANKS
+            PreparedStatement saleWrite = connection.prepareStatement("INSERT INTO houseofcards.sale (DateTime, FK_UserID, SaleTotal) VALUES ('"+df.format(new Date())+"',7,12.34)");
+            saleWrite.execute();
+            //now we need to set the saleId by querying to find that sale we just made and grabbing its ID
+            //DO THAT CODE RIGHT HERE
+            ArrayList<PreparedStatement> psSaleItemList = new ArrayList<>();
+            for (SaleItem si : SaleItems){
+                psSaleItemList.add(connection.prepareStatement("INSERT INTO houseofcards.saleitems (FK_SaleID, FK_ProductID, Quantity) VALUES ("+saleId+","+si.getProductID()+","+si.getQuantity()+")"));
+            }
+            //execute all those PreparedStatements
+            psSaleItemList.forEach((ps1)->{try{ps1.execute();}catch(Exception e){System.err.println(e);}});
+            //HEY DONT FORGET TO DECREMENT THE INVENTORY IN THE DATABASE
+        }catch(Exception e){
+            System.err.println(e);
+        }
+        //PreparedStatement ps = connection.prepareStatement("UPDATE houseofcards.products SET InventoryQuantity="+Integer.toString(ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()-1)+" WHERE PK_ProductID = "+Integer.toString(ProductsArray.get(lstProducts.getSelectedIndex()).getProductID()));
+                //ps.executeUpdate();
+    }//GEN-LAST:event_btnCompleteSaleActionPerformed
 
     public static DefaultListModel buildListModel(ArrayList<Product> arr){
         DefaultListModel<String> dlm = new DefaultListModel<>();
@@ -642,9 +721,11 @@ public class frmMain extends javax.swing.JFrame {
     
     private double total(){
         return subtotal+tax();
-    }    
+    }
+    private boolean updateNeeded;
     private float subtotal;
-    private ArrayList<SaleItem> SalesItems = new ArrayList<>();
+    private ArrayList<Sale> Sales = new ArrayList<>();
+    private ArrayList<SaleItem> SaleItems = new ArrayList<>();
     private ArrayList<Product> ProductsArray = new ArrayList<>();
     private static Connection connection;
     private String user;

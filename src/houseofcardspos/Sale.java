@@ -7,6 +7,7 @@ package houseofcardspos;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -18,9 +19,9 @@ public class Sale {
         //nothing
     };
 
-    public Sale(ArrayList<SaleItem> saleItems, Date date, BigDecimal saleTotal) {
+    public Sale(ArrayList<SaleItem> saleItems, BigDecimal saleTotal) {
         this.saleItems = saleItems;
-        this.date = date;
+        this.date = df.format(new java.util.Date());
         this.saleTotal = saleTotal;
     }
 
@@ -32,11 +33,11 @@ public class Sale {
         this.saleItems = saleItems;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -47,8 +48,8 @@ public class Sale {
     public void setSaleTotal(BigDecimal saleTotal) {
         this.saleTotal = saleTotal;
     }
-    
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private ArrayList<SaleItem> saleItems;
-    private Date date;
+    private String date;
     private BigDecimal saleTotal;
 }
