@@ -16,11 +16,11 @@ public class SaleItem {
     public SaleItem(){
         //nothing
     }
-
-    public SaleItem(int quantity, Product p) {
-
+    
+    public SaleItem(int quantity, Product p) {        
         this.quantity = quantity;
         this.p = p;
+        this.p.setInventoryQuantity(p.getInventoryQuantity()-1);
     }
 
     public int getQuantity() {
@@ -58,7 +58,9 @@ public class SaleItem {
     public int getInventoryQuantity(){
         return p.getInventoryQuantity();
     }
-    
+    public void setInventoryQuantity(int q){
+        p.setInventoryQuantity(q);
+    }
     
 
     private int quantity;

@@ -19,9 +19,9 @@ public class Sale {
         //nothing
     };
 
-    public Sale(ArrayList<SaleItem> saleItems, BigDecimal saleTotal) {
+    public Sale(ArrayList<SaleItem> saleItems, BigDecimal saleTotal, String date) {
         this.saleItems = saleItems;
-        this.date = df.format(new java.util.Date());
+        this.date = date;
         this.saleTotal = saleTotal;
     }
 
