@@ -9,23 +9,21 @@
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuFileNewSale">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuFileCancelSale">
               <Properties>
-                <Property name="text" type="java.lang.String" value="New Sale"/>
+                <Property name="text" type="java.lang.String" value="Cancel Sale"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuFileNewSaleActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuFileCancelSaleActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuFileCloseSale">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuFileCompleteSale">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Close Sale"/>
+                <Property name="text" type="java.lang.String" value="Complete Sale"/>
               </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuFileSaveSale">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Save Sale"/>
-              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuFileCompleteSaleActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -33,6 +31,18 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuEditAddMultiple">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Add Multiple"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuEditRemoveMultiple">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Remove Multiple"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
