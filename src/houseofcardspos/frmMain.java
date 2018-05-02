@@ -91,9 +91,7 @@ public class frmMain extends javax.swing.JFrame {
         mnuFile = new javax.swing.JMenu();
         mnuFileCancelSale = new javax.swing.JMenuItem();
         mnuFileCompleteSale = new javax.swing.JMenuItem();
-        mnuEdit = new javax.swing.JMenu();
-        mnuEditAddMultiple = new javax.swing.JMenuItem();
-        mnuEditRemoveMultiple = new javax.swing.JMenuItem();
+        mnuFileClose = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("House of Cards Point of Sale");
@@ -172,6 +170,7 @@ public class frmMain extends javax.swing.JFrame {
 
         jLabel1.setText("Sale Items:");
 
+        lstSaleItems.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(lstSaleItems);
 
         btnRemove.setText("Remove Item");
@@ -218,6 +217,7 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
+        lstProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstProducts.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 lstProductsKeyPressed(evt);
@@ -361,8 +361,11 @@ public class frmMain extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        mnuFile.setMnemonic('f');
         mnuFile.setText("File");
 
+        mnuFileCancelSale.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuFileCancelSale.setMnemonic('c');
         mnuFileCancelSale.setText("Cancel Sale");
         mnuFileCancelSale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -371,7 +374,10 @@ public class frmMain extends javax.swing.JFrame {
         });
         mnuFile.add(mnuFileCancelSale);
 
+        mnuFileCompleteSale.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        mnuFileCompleteSale.setMnemonic('s');
         mnuFileCompleteSale.setText("Complete Sale");
+        mnuFileCompleteSale.setToolTipText("");
         mnuFileCompleteSale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuFileCompleteSaleActionPerformed(evt);
@@ -379,17 +385,17 @@ public class frmMain extends javax.swing.JFrame {
         });
         mnuFile.add(mnuFileCompleteSale);
 
+        mnuFileClose.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuFileClose.setMnemonic('p');
+        mnuFileClose.setText("Close Program");
+        mnuFileClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFileCloseActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuFileClose);
+
         mnuMainMenuBar.add(mnuFile);
-
-        mnuEdit.setText("Edit");
-
-        mnuEditAddMultiple.setText("Add Multiple");
-        mnuEdit.add(mnuEditAddMultiple);
-
-        mnuEditRemoveMultiple.setText("Remove Multiple");
-        mnuEdit.add(mnuEditRemoveMultiple);
-
-        mnuMainMenuBar.add(mnuEdit);
 
         setJMenuBar(mnuMainMenuBar);
 
@@ -492,17 +498,23 @@ public class frmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSelectedItemPriceActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        int quantityToAdd = 1;
+        try{ quantityToAdd = Integer.parseInt(JOptionPane.showInputDialog(this,"How many are you adding","1"));
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"An error occured! Error message says:\n"+e);
+            return;
+        }        
         if (lstProducts.getSelectedIndex() == -1){JOptionPane.showMessageDialog(this,"You need to have something selected to add it!");return;}
         updateNeeded = true;
         //If there is more than zero of the selected product in DB inventory
-        if(ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()>0){
+        if((ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity()>0)&&(quantityToAdd <= ProductsArray.get(lstProducts.getSelectedIndex()).getInventoryQuantity())){
             //If the difference between the inventory in the DB and cart is greater than 0
-            SaleItems.forEach((si) -> {
+            for(SaleItem si : SaleItems) {
                 if(ProductsArray.get(lstProducts.getSelectedIndex()).getProductID()==si.getProductID()){
-                    if ((si.getInventoryQuantity()+si.getQuantity())>0){
+                    if ((/*si.getInventoryQuantity()+*/si.getQuantity())>0){
                         //They already have it in their cart and they are free to increment the value of that
-                        si.setQuantity(si.getQuantity()+1);
-                        si.setInventoryQuantity(si.getInventoryQuantity()-1);
+                        si.setQuantity(si.getQuantity()+quantityToAdd);
+                        si.setInventoryQuantity(si.getInventoryQuantity()-quantityToAdd);
                         lstSaleItems.setModel(buildSalesListModel(SaleItems));
                         subtotal+=ProductsArray.get(lstProducts.getSelectedIndex()).getPrice().floatValue();
                         lblSubtotal.setText(String.format("%.2f",subtotal));
@@ -514,10 +526,10 @@ public class frmMain extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this,"You got the last of that item!");
                     }
                 }
-            });
+            }
             if (SaleItems.isEmpty()||updateNeeded){
                 
-                SaleItems.add(new SaleItem(1,ProductsArray.get(lstProducts.getSelectedIndex())));
+                SaleItems.add(new SaleItem(quantityToAdd,ProductsArray.get(lstProducts.getSelectedIndex())));
                 lstSaleItems.setModel(buildSalesListModel(SaleItems));
                 System.out.println("product needed addition to sale items");
                 subtotal = 0f;
@@ -530,7 +542,7 @@ public class frmMain extends javax.swing.JFrame {
             }
             //System.out.println("more than 0 in database inventory!");
         }else{
-            JOptionPane.showMessageDialog(this, "We have no more inventory for that item!");
+            JOptionPane.showMessageDialog(this, "We don't have enough inventory to fulfill your request!");
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -540,13 +552,26 @@ public class frmMain extends javax.swing.JFrame {
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         // TODO add your handling code here:
-        if (lstSaleItems.getSelectedIndex() == -1){JOptionPane.showMessageDialog(this,"You need to have something selected to remove it!");return;}
+        int quantityToRemove = 1;
+        try{
+            quantityToRemove = Integer.parseInt(JOptionPane.showInputDialog(this,"How many are you removing","1"));
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"An error occured! Error message says:\n"+e);
+            return;
+        }  
+        if (lstSaleItems.getSelectedIndex() == -1){
+            JOptionPane.showMessageDialog(this,"You need to have something selected to remove it!");
+            return;
+        }
         int selIndex = lstSaleItems.getSelectedIndex();
-    	if (SaleItems.get(selIndex).getQuantity()>1) {
-    		SaleItems.get(selIndex).setQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getQuantity()-1);
-    		updateSelectedInfo();
+    	if ((SaleItems.get(selIndex).getQuantity()>1)&&(quantityToRemove <= SaleItems.get(selIndex).getQuantity())) {
+            SaleItems.get(selIndex).setInventoryQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getQuantity()+quantityToRemove);
+            SaleItems.get(selIndex).setQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getQuantity()-quantityToRemove);                
+            updateSelectedInfo();
     	}else {
-    		SaleItems.remove(selIndex);
+            //SaleItems.get(selIndex).setInventoryQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getQuantity()+SaleItems.get(lstSaleItems.getSelectedIndex()).getInventoryQuantity());
+            //SaleItems.get(selIndex).setQuantity(0);                
+            SaleItems.remove(selIndex);
     	}
     	lstSaleItems.setModel(buildSalesListModel(SaleItems));
         subtotal = 0f;
@@ -567,7 +592,10 @@ public class frmMain extends javax.swing.JFrame {
     
     private void btnCompleteSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteSaleActionPerformed
         // TODO add your handling code here:
-        if (Sales.isEmpty()){JOptionPane.showMessageDialog(this, "There are no items for your sale!");return;}
+        if (SaleItems.isEmpty()){
+            JOptionPane.showMessageDialog(this, "There are no items for your sale!");
+            return;
+        }
         Sales.add(new Sale(SaleItems,BigDecimal.valueOf(total()),df.format(new Date())));
         Sale curSale = Sales.get(Sales.size()-1);
         ArrayList<PreparedStatement> psList = new ArrayList<>();
@@ -600,6 +628,13 @@ public class frmMain extends javax.swing.JFrame {
         clearSale();
         clearTotals();
     }//GEN-LAST:event_mnuFileCancelSaleActionPerformed
+
+    private void mnuFileCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFileCloseActionPerformed
+        // TODO add your handling code here:
+        if(JOptionPane.showConfirmDialog(this,"Are you sure you want to exit?")==0){
+        System.exit(0);
+        }
+    }//GEN-LAST:event_mnuFileCloseActionPerformed
     
     private void clearTotals(){
         lblTax.setText("0.00");
@@ -784,11 +819,9 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JLabel lblUsername;
     private javax.swing.JList<String> lstProducts;
     private javax.swing.JList<String> lstSaleItems;
-    private javax.swing.JMenu mnuEdit;
-    private javax.swing.JMenuItem mnuEditAddMultiple;
-    private javax.swing.JMenuItem mnuEditRemoveMultiple;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenuItem mnuFileCancelSale;
+    private javax.swing.JMenuItem mnuFileClose;
     private javax.swing.JMenuItem mnuFileCompleteSale;
     private javax.swing.JMenuBar mnuMainMenuBar;
     private javax.swing.JPanel pnlCompletionAndTotal;
